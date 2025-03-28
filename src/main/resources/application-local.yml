@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/data-retention-policy
+    username: usr
+    password: pwd
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:/org/springframework/batch/core/schema-drop-postgresql.sql, classpath:/org/springframework/batch/core/schema-postgresql.sql
+  liquibase:
+    change-log: classpath:/db/tables/tables.yaml
+logging:
+  level:
+    root: info

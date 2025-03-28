@@ -1,0 +1,39 @@
+spring:
+  batch:
+    # job:
+    # enabled: false
+    jdbc:
+      initialize-schema: never
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+logging:
+  level:
+    root: info
+retention-policy:
+  database:
+    name: shard1
+    default_configs:
+      ts_column_name: created_ts
+      batch_size: 1000
+      sleep_between_delete_batch_in_ms: 100
+      retention_period_in_days: 60
+    tables:
+      - schema_name: public
+        table_name: table1
+        timestamp_column: created_at
+        timestamp_data_type: timestamp
+        retention_period_in_days: 30
+      - schema_name: public
+        table_name: table2
+        timestamp_column: created_at
+        timestamp_data_type: timestamp
+        batch_size: 10000
+        sleep_between_delete_batch_in_ms: 10000
+        retention_period_in_days: 300

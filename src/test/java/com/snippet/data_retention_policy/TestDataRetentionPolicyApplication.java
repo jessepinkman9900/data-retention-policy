@@ -4,8 +4,9 @@ import org.springframework.boot.SpringApplication;
 
 public class TestDataRetentionPolicyApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.from(DataRetentionPolicyApplication::main).with(TestcontainersConfiguration.class).run(args);
-	}
-
+  public static void main(String[] args) {
+    SpringApplication.from(DataRetentionPolicyApplication::main)
+        .with(TestcontainersConfiguration.class)
+        .run(args);
+  }
 }
