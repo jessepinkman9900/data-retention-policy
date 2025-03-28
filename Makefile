@@ -1,4 +1,4 @@
-.PHONY: clean build run test clean-db help fmt clean-run setup-local
+.PHONY: clean build run test clean-db help fmt clean-run setup-local docker-build docker-run
 
 help:
 	@echo "Available commands:"
@@ -10,6 +10,8 @@ help:
 	@echo "  build     - Build the project"
 	@echo "  run       - Run the application"
 	@echo "  test      - Run tests"
+	@echo "  docker-build - Build Docker image"
+	@echo "  docker-run   - Run application in Docker"
 
 setup-local:
 	mise install
@@ -44,3 +46,13 @@ clean-run: clean-db
 	set -a && source .env.local && set +a && \
 	env && \
 	$(MAKE) run
+
+docker-build:
+	docker build -t data-retention-policy:latest .
+
+docker-run: clean-db docker-build
+	docker run --rm -it \
+		--network=host \
+		-e SPRING_PROFILES_ACTIVE=local \
+		--env-file .env.local \
+		data-retention-policy:latest
