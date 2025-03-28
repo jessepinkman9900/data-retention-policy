@@ -34,7 +34,7 @@ fmt:
 clean-db:
 	docker compose down && \
 	docker compose up -d && \
-	sleep 5 && \
+	sleep 2 && \
 	liquibase update \
 		--changelog-file=./db-migrations/database.yaml \
 		--url="jdbc:postgresql://localhost:5432/data-retention-policy" \
