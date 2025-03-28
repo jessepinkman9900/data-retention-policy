@@ -59,12 +59,13 @@ public class DataRetentionJobOrchestrator {
     return new JobParametersBuilder()
         .addString("schema_name", tableConfig.getSchemaName())
         .addString("table_name", tableConfig.getTableName())
-        .addString("timestamp_column", tableConfig.getTimestampColumn())
+        .addString("id_column_name", tableConfig.getIdColumnName())
+        .addString("timestamp_column_name", tableConfig.getTimestampColumnName())
         .addString("timestamp_data_type", tableConfig.getTimestampDataType())
+        .addLong("retention_period_in_days", tableConfig.getRetentionPeriodInDays())
         .addLong("batch_size", tableConfig.getBatchSize())
         .addLong("sleep_between_delete_batch_in_ms", tableConfig.getSleepBetweenDeleteBatchInMs())
-        .addLong("retention_period_in_days", tableConfig.getRetentionPeriodInDays())
-        .addLocalDateTime("start_time", ZonedDateTime.now(ZoneOffset.UTC).toLocalDateTime())
+        .addLocalDateTime("start_timestamp", ZonedDateTime.now(ZoneOffset.UTC).toLocalDateTime())
         .toJobParameters();
   }
 }

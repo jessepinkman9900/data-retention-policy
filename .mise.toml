@@ -1,3 +1,4 @@
 [tools]
 pre-commit = "4.0.1"
 java = "openjdk-21"
+liquibase = "latest"

@@ -12,8 +12,8 @@ spring:
     init:
       mode: always
       schema-locations: classpath:/org/springframework/batch/core/schema-drop-postgresql.sql, classpath:/org/springframework/batch/core/schema-postgresql.sql
-  liquibase:
-    change-log: classpath:/db/tables/tables.yaml
+  # liquibase:
+  #   change-log: classpath:/db/tables/tables.yaml
 logging:
   level:
     root: info

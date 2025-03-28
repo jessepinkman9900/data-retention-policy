@@ -20,20 +20,24 @@ retention-policy:
   database:
     name: shard1
     default_configs:
-      ts_column_name: created_ts
+      id_column_name: id
+      timestamp_column_name: created_ts
+      timestamp_data_type: timestamp
+      retention_period_in_days: 3
       batch_size: 2
       sleep_between_delete_batch_in_ms: 100
-      retention_period_in_days: 3
     tables:
       - schema_name: public
         table_name: table1
-        timestamp_column: created_at
+        id_column_name: id
+        timestamp_column_name: created_at
         timestamp_data_type: timestamp
         retention_period_in_days: 30
       - schema_name: public
         table_name: table2
-        timestamp_column: created_at
+        id_column_name: id
+        timestamp_column_name: created_at
         timestamp_data_type: timestamp
+        retention_period_in_days: 6
         batch_size: 10
         sleep_between_delete_batch_in_ms: 10000
-        retention_period_in_days: 6

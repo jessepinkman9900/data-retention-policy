@@ -27,7 +27,9 @@ public class RetentionPolicyConfig {
   @Data
   @Getter
   public static class DefaultConfigs {
-    private String tsColumnName;
+    private String idColumnName;
+    private String timestampColumnName;
+    private String timestampDataType;
     private Long batchSize = 1000L;
     private Long sleepBetweenDeleteBatchInMs = 1000L;
     private Long retentionPeriodInDays = 366L;
@@ -38,7 +40,8 @@ public class RetentionPolicyConfig {
   public static class TableConfig {
     private String schemaName = null;
     private String tableName = null;
-    private String timestampColumn = null;
+    private String idColumnName = null;
+    private String timestampColumnName = null;
     private String timestampDataType = null;
     private Long batchSize = -1L;
     private Long sleepBetweenDeleteBatchInMs = -1L;
@@ -58,13 +61,38 @@ public class RetentionPolicyConfig {
       if (tableConfig.getTableName() == null) {
         logger.error("Table name is not specified");
       }
-      if (tableConfig.getTimestampColumn() == null) {
+      if (tableConfig.getIdColumnName() == null) {
         logger.info(
-            "Table {}.{} using database default configuration timestamp_column={}",
+            "Table {}.{} using database default configuration id_column_name={}",
             tableConfig.getSchemaName(),
             tableConfig.getTableName(),
-            database.getDefaultConfigs().getTsColumnName());
-        tableConfig.setTimestampColumn(database.getDefaultConfigs().getTsColumnName());
+            database.getDefaultConfigs().getIdColumnName());
+        tableConfig.setIdColumnName(database.getDefaultConfigs().getIdColumnName());
+      }
+      if (tableConfig.getTimestampColumnName() == null) {
+        logger.info(
+            "Table {}.{} using database default configuration timestamp_column_name={}",
+            tableConfig.getSchemaName(),
+            tableConfig.getTableName(),
+            database.getDefaultConfigs().getTimestampColumnName());
+        tableConfig.setTimestampColumnName(database.getDefaultConfigs().getTimestampColumnName());
+      }
+      if (tableConfig.getTimestampDataType() == null) {
+        logger.info(
+            "Table {}.{} using database default configuration timestamp_data_type={}",
+            tableConfig.getSchemaName(),
+            tableConfig.getTableName(),
+            database.getDefaultConfigs().getTimestampDataType());
+        tableConfig.setTimestampDataType(database.getDefaultConfigs().getTimestampDataType());
+      }
+      if (tableConfig.getRetentionPeriodInDays() == -1L) {
+        logger.info(
+            "Table {}.{} using database default configuration retention_period_in_days={}",
+            tableConfig.getSchemaName(),
+            tableConfig.getTableName(),
+            database.getDefaultConfigs().getRetentionPeriodInDays());
+        tableConfig.setRetentionPeriodInDays(
+            database.getDefaultConfigs().getRetentionPeriodInDays());
       }
       if (tableConfig.getBatchSize() == -1L) {
         logger.info(
@@ -76,22 +104,12 @@ public class RetentionPolicyConfig {
       }
       if (tableConfig.getSleepBetweenDeleteBatchInMs() == -1L) {
         logger.info(
-            "Table {}.{} using database default configuration"
-                + " sleep_between_delete_batch_in_ms={}",
+            "Table {}.{} using database default configuration sleep_between_delete_batch_in_ms={}",
             tableConfig.getSchemaName(),
             tableConfig.getTableName(),
             database.getDefaultConfigs().getSleepBetweenDeleteBatchInMs());
         tableConfig.setSleepBetweenDeleteBatchInMs(
             database.getDefaultConfigs().getSleepBetweenDeleteBatchInMs());
-      }
-      if (tableConfig.getRetentionPeriodInDays() == -1L) {
-        logger.info(
-            "Table {}.{} using database default configuration" + " retention_period_in_days={}",
-            tableConfig.getSchemaName(),
-            tableConfig.getTableName(),
-            database.getDefaultConfigs().getRetentionPeriodInDays());
-        tableConfig.setRetentionPeriodInDays(
-            database.getDefaultConfigs().getRetentionPeriodInDays());
       }
     }
 
