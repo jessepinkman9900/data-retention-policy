@@ -1,14 +1,18 @@
-.PHONY: clean build run test clean-db help fmt clean-run
+.PHONY: clean build run test clean-db help fmt clean-run setup-local
 
 help:
 	@echo "Available commands:"
+	@echo "  setup-local - Setup local environment"
+	@echo "  clean-run - Clean database and run application"
+	@echo "  fmt       - Format code"
+	@echo "  clean-db  - Set up fresh local database using docker, liquibase and postgres"
 	@echo "  clean     - Clean build artifacts"
 	@echo "  build     - Build the project"
 	@echo "  run       - Run the application"
 	@echo "  test      - Run tests"
-	@echo "  clean-db  - Set up fresh local database using docker, liquibase and postgres"
-	@echo "  fmt       - Format code"
-	@echo "  clean-run - Clean database and run application"
+
+setup-local:
+	mise install
 
 clean:
 	./mvnw clean
@@ -37,4 +41,6 @@ clean-db:
 		--log-level=INFO
 
 clean-run: clean-db
+	set -a && source .env.local && set +a && \
+	env && \
 	$(MAKE) run
